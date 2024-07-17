@@ -1,5 +1,13 @@
 # 💫 About Me:
-🔭 I’m currently working on Web Back-end Development<br><br>🌱 I’m currently learning Gamification, System/Solution Design, System/Solution Architect<br><br>👨‍💻 All of my projects are available at https://www.github.com/minhlu-i<br><br>📫 How to reach me https://www.linkedin.com/in/minhlu<br><br>⚡ Fun fact *Don't Reinvent The Wheel, Unless You Plan on Learning More About Wheels*
+🔭 I’m currently working on Web Back-end Development
+
+🌱 I’m currently learning Gamification, System/Solution Design, System/Solution Architect
+
+👨‍💻 All of my projects are available at https://www.github.com/minhlu-i
+
+📫 How to reach me https://www.linkedin.com/in/minhlu
+
+⚡ Fun fact: *Don't Reinvent The Wheel, Unless You Plan on Learning More About Wheels*
 
 
 ## 🌐 Socials:
