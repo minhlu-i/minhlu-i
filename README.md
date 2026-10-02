@@ -1,30 +1,79 @@
-# 💫 About Me:
-🔭 I’m currently working on Web Back-end Development
+<p align="center">
+  <img src="./assets/profile-hero.svg" width="100%" alt="Minh Lu — backend developer. Building systems, shaping workflows, learning by making." />
+</p>
 
-🌱 I’m currently learning Gamification, System/Solution Design, System/Solution Architect
+<p align="center">
+  <a href="https://www.linkedin.com/in/minhlu"><b>LinkedIn</b></a>
+  &nbsp; / &nbsp;
+  <a href="https://github.com/minhlu-i?tab=repositories"><b>Projects</b></a>
+  &nbsp; / &nbsp;
+  <a href="https://www.facebook.com/minhlu99"><b>Facebook</b></a>
+</p>
 
-👨‍💻 All of my projects are available at https://www.github.com/minhlu-i
+<br />
 
-📫 How to reach me https://www.linkedin.com/in/minhlu
+## Behind the build
 
-⚡ Fun fact: *Don't Reinvent The Wheel, Unless You Plan on Learning More About Wheels*
+I'm Minh, a backend developer who likes understanding how the pieces fit together: the API, the database, the infrastructure, and the tools that make building them feel good.
 
-![nothing](https://github.com/user-attachments/assets/c2a05c30-44fc-40b2-9cee-d28dea3e2e88)
+My current playground spans **backend development**, **developer tooling**, and **AI-assisted coding workflows**. I build things to use them—and sometimes rebuild them to understand them.
 
+```text
+minh@workstation ~ % cat focus.txt
 
-## 🌐 Socials:
-[![Facebook](https://img.shields.io/badge/Facebook-%231877F2.svg?logo=Facebook&logoColor=white)](https://www.facebook.com/minhlu99)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/minhlu) 
+BUILD     Backend services · repeatable development environments
+TOOL      Bash / Zsh · Docker · Codex / Claude Code
+EXPLORE   System design · solution architecture · gamification
+```
 
-# 💻 Tech Stack:
-![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-![Jira](https://img.shields.io/badge/jira-%230A0FFF.svg?style=for-the-badge&logo=jira&logoColor=white)
-![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
+<br />
 
-### ✍️ Random Dev Quote
-![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=default)
+## On my workbench
 
+<a href="https://github.com/minhlu-i/workstation">
+  <img src="./assets/workstation-card.svg" width="100%" alt="Featured project: workstation — modular setup for macOS and Ubuntu / WSL2. Tools, shell, Git, Docker, and verification." />
+</a>
+
+### [workstation ↗](https://github.com/minhlu-i/workstation)
+
+**Less setup friction. More time building.**
+
+A modular development workstation setup for **macOS and Ubuntu / WSL2**, with a bootstrap entry point, focused installers, and a doctor command that checks the implemented setup domains.
+
+- **Tools that work together.** Homebrew + mise, common CLI tools, and Codex / Claude Code installation.
+- **A shell that feels like home.** Native Zsh on macOS, Bash on Ubuntu / WSL2, with Starship and zoxide.
+- **The everyday essentials.** Git configuration and Docker tooling through OrbStack or native Docker Engine.
+- **Check before changing.** Reuse working tools, preserve configuration backups, and verify the result.
+
+<sub>Implemented: tools, shell, Git, Docker, and doctor checks. Workspace organization is planned.</sub>
+
+<br />
+
+## The things I gravitate toward
+
+| Backend engineering | Developer experience | Systems thinking |
+| :--- | :--- | :--- |
+| Building web backends with TypeScript, NestJS, and PostgreSQL. | Turning repeated setup steps into scripts and bringing AI coding tools into the workflow. | Learning system design, solution architecture, and how gamification shapes a product. |
+
+<br />
+
+## Tools of the trade
+
+<p>
+  <img src="https://img.shields.io/badge/TypeScript-0D1117?style=for-the-badge&amp;logo=typescript&amp;logoColor=3178C6" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/NestJS-0D1117?style=for-the-badge&amp;logo=nestjs&amp;logoColor=E0234E" alt="NestJS" />
+  <img src="https://img.shields.io/badge/PostgreSQL-0D1117?style=for-the-badge&amp;logo=postgresql&amp;logoColor=66A7D5" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Python-0D1117?style=for-the-badge&amp;logo=python&amp;logoColor=FFD43B" alt="Python" />
+  <img src="https://img.shields.io/badge/Docker-0D1117?style=for-the-badge&amp;logo=docker&amp;logoColor=2496ED" alt="Docker" />
+  <img src="https://img.shields.io/badge/Shell-0D1117?style=for-the-badge&amp;logo=gnubash&amp;logoColor=5EEAD4" alt="Shell" />
+</p>
+
+<br />
+
+---
+
+<p align="center">
+  <b>“Don't reinvent the wheel, unless you plan on learning more about wheels.”</b>
+  <br /><br />
+  <sub>Have something interesting to build? <a href="https://www.linkedin.com/in/minhlu">Let's talk.</a></sub>
+</p>

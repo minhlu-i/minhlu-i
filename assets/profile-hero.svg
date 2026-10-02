@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="420" viewBox="0 0 1000 420" role="img" aria-labelledby="title desc">
+  <title id="title">Minh Lu — building systems and shaping workflows</title>
+  <desc id="desc">A dark violet and cyan banner with an abstract orbital system diagram.</desc>
+  <defs>
+    <linearGradient id="background" x2="1" y2="1"><stop stop-color="#111022"/><stop offset="1" stop-color="#0B1420"/></linearGradient>
+    <linearGradient id="accent"><stop stop-color="#C4B5FD"/><stop offset="1" stop-color="#5EEAD4"/></linearGradient>
+    <radialGradient id="halo"><stop stop-color="#7C3AED" stop-opacity=".28"/><stop offset="1" stop-color="#7C3AED" stop-opacity="0"/></radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#FFFFFF" stroke-opacity=".035"/></pattern>
+  </defs>
+  <rect width="1000" height="420" rx="20" fill="url(#background)"/>
+  <rect width="1000" height="420" rx="20" fill="url(#grid)"/>
+  <circle cx="795" cy="180" r="265" fill="url(#halo)"/>
+  <g fill="none" stroke="#A78BFA">
+    <circle cx="795" cy="210" r="132" stroke-opacity=".25"/>
+    <circle cx="795" cy="210" r="94" stroke-opacity=".4" stroke-dasharray="3 10"/>
+    <ellipse cx="795" cy="210" rx="164" ry="60" transform="rotate(-38 795 210)" stroke-opacity=".6"/>
+    <ellipse cx="795" cy="210" rx="164" ry="60" transform="rotate(38 795 210)" stroke="#5EEAD4" stroke-opacity=".45"/>
+  </g>
+  <path d="m795 174 32 18v36l-32 18-32-18v-36z" fill="#161B30" stroke="url(#accent)" stroke-width="2"/>
+  <path d="m763 192 32 18 32-18m-32 18v36" fill="none" stroke="#A78BFA" stroke-width="1.5"/>
+  <circle cx="706" cy="111" r="7" fill="#5EEAD4"/>
+  <circle cx="921" cy="249" r="6" fill="#C4B5FD"/>
+  <circle cx="697" cy="298" r="4" fill="#C4B5FD"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <text x="52" y="58" fill="#A6A9BE" font-size="12" letter-spacing="3">MINHLU-I / THE BUILDER'S WORKBENCH</text>
+    <text x="52" y="110" fill="#5EEAD4" font-size="14">BACKEND DEVELOPER</text>
+    <text x="795" y="372" fill="#A6A9BE" font-size="11" text-anchor="middle" letter-spacing="2">CODE / TOOLS / SYSTEMS</text>
+  </g>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif">
+    <text x="48" y="209" fill="#F6F4FF" font-size="92" font-weight="750" letter-spacing="-5">Minh Lu<tspan fill="#5EEAD4">.</tspan></text>
+    <text x="52" y="264" fill="#E0DAF5" font-size="25" font-weight="600">Building systems.</text>
+    <text x="52" y="299" fill="#E0DAF5" font-size="25" font-weight="600">Shaping workflows.</text>
+    <text x="52" y="357" fill="#AAAEC3" font-size="16">Learning by making. Improving by doing.</text>
+  </g>
+  <rect x="52" y="388" width="90" height="3" rx="1.5" fill="url(#accent)"/>
+</svg>
