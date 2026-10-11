@@ -274,25 +274,31 @@ def image_art_fragment(c):
     grid, split = data["grid"], data.get("split") or 0
     cols = max(len(r) for r in grid)
     people = [(0, split), (split, cols)] if split else [(0, cols)]
+    solo = len(people) == 1
+    pad = 45 if solo else 0          # chừa chỗ để lắc lư không bị cắt mép trái
+    X = 15 + pad
     frag = []
 
     text = getattr(config, "BUBBLE_TEXT", "")
     top = 30
     if text:
-        w = len(text)
-        tail = int(cols * 0.62)                       # đuôi chỉ về người bên phải
-        bub = ["." + "-" * (w + 4) + ".",
-               "(  " + text + "  )",
-               "'" + "-" * (tail - 1) + ".  ." + "-" * (w + 4 - tail - 3) + "'",
-               " " * (tail + 1) + "\\|"]
-        frag.append(f'<g class="bubble"><text x="15" fill="{c["value"]}" font-size="{ART_FONT + 1}px">')
+        import textwrap
+        rows_ = textwrap.wrap(text, 24 if solo else 60)
+        w = max(len(r) for r in rows_)
+        tail = int(cols * (0.36 if solo else 0.62))   # đuôi chỉ về người đang hét
+        tail = min(tail, w - 2)
+        bub = ["." + "-" * (w + 4) + "."]
+        bub += ["(  " + r.ljust(w) + "  )" for r in rows_]
+        bub += ["'" + "-" * (tail - 1) + ".  ." + "-" * (w + 4 - tail - 3) + "'",
+                " " * (tail + 1) + "\\|"]
+        frag.append(f'<g class="bubble"><text x="{X}" fill="{c["value"]}" font-size="{ART_FONT + 1}px">')
         for i, l in enumerate(bub):
-            frag.append(f'<tspan x="15" y="{top + i * (ART_LH + 1)}">{escape(l)}</tspan>')
+            frag.append(f'<tspan x="{X}" y="{top + i * (ART_LH + 1)}">{escape(l)}</tspan>')
         frag.append("</text></g>")
         top += len(bub) * (ART_LH + 1) + 4
 
     for idx, (a, b) in enumerate(people):
-        frag.append(f'<g class="p{idx}"><text x="15" fill="{c["text"]}" font-size="{ART_FONT}px">')
+        frag.append(f'<g class="{"solo" if solo else f"p{idx}"}"><text x="{X}" fill="{c["text"]}" font-size="{ART_FONT}px">')
         for y, row in enumerate(grid):
             # Mỗi người là một <text> đủ chiều rộng; cột của người kia thay bằng khoảng trắng
             segs, cur, buf = [], None, ""
@@ -308,9 +314,10 @@ def image_art_fragment(c):
             if all(t.strip() == "" for _, t in segs):
                 continue
             inner = "".join(f'<tspan fill="{k}">{escape(t)}</tspan>' if k else escape(t) for k, t in segs)
-            frag.append(f'<tspan x="15" y="{top + y * ART_LH}">{inner}</tspan>')
+            frag.append(f'<tspan x="{X}" y="{top + y * ART_LH}">{inner}</tspan>')
         frag.append("</text></g>")
-    width = 15 + max(cols, len(text) + 6) * ART_CW
+    bw = (max(len(l) for l in bub) if text else 0) * (ART_CW + 0.7)
+    width = X + max(cols * ART_CW + pad, bw)
     height = top + len(grid) * ART_LH
     return frag, width, height
 
@@ -394,6 +401,14 @@ ANIM_CSS = """
           animation: pop 4s ease-out infinite; }
 .p0 { animation: hop 1.2s ease-in-out infinite; }
 .p1 { animation: hop 1.2s ease-in-out infinite; animation-delay: -0.6s; }
+.solo { transform-box: fill-box; transform-origin: 50% 100%;
+        animation: sway 1.6s ease-in-out infinite; }
+@keyframes sway {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  25%      { transform: translateY(-7px) rotate(0deg); }
+  50%      { transform: translateY(0) rotate(6deg); }
+  75%      { transform: translateY(-7px) rotate(0deg); }
+}
 @keyframes hop {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
@@ -409,7 +424,7 @@ ANIM_CSS = """
   96%, 100% { opacity: 0; transform: scale(0.9); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .head, .p0, .p1 { animation: none; } .bubble { animation: none; opacity: 1; }
+  .head, .p0, .p1, .solo { animation: none; } .bubble { animation: none; opacity: 1; }
 }
 """
 
