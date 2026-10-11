@@ -275,7 +275,7 @@ def image_art_fragment(c):
     cols = max(len(r) for r in grid)
     people = [(0, split), (split, cols)] if split else [(0, cols)]
     solo = len(people) == 1
-    pad = 45 if solo else 0          # chừa chỗ để lắc lư không bị cắt mép trái
+    pad = 75 if solo else 0          # chừa chỗ để nghiêng người không bị cắt mép trái
     X = 15 + pad
     frag = []
 
@@ -402,12 +402,14 @@ ANIM_CSS = """
 .p0 { animation: hop 1.2s ease-in-out infinite; }
 .p1 { animation: hop 1.2s ease-in-out infinite; animation-delay: -0.6s; }
 .solo { transform-box: fill-box; transform-origin: 50% 100%;
-        animation: sway 1.6s ease-in-out infinite; }
-@keyframes sway {
-  0%, 100% { transform: translateY(0) rotate(-6deg); }
-  25%      { transform: translateY(-7px) rotate(0deg); }
-  50%      { transform: translateY(0) rotate(6deg); }
-  75%      { transform: translateY(-7px) rotate(0deg); }
+        animation: prance 0.96s infinite; }
+/* Nhảy chân sáo: bật lên, đáp xuống nghiêng hẳn một bên (nén người lại), rồi đổi bên */
+@keyframes prance {
+  0%   { transform: translate(0, 0)      rotate(-9deg) scale(1.05, 0.93); animation-timing-function: ease-out; }
+  22%  { transform: translate(-5px,-16px) rotate(-3deg) scale(0.98, 1.04); animation-timing-function: ease-in; }
+  50%  { transform: translate(0, 0)      rotate(9deg)  scale(1.05, 0.93); animation-timing-function: ease-out; }
+  72%  { transform: translate(5px,-16px)  rotate(3deg)  scale(0.98, 1.04); animation-timing-function: ease-in; }
+  100% { transform: translate(0, 0)      rotate(-9deg) scale(1.05, 0.93); }
 }
 @keyframes hop {
   0%, 100% { transform: translateY(0); }
