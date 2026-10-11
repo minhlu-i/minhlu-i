@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="./assets/profile-hero.svg" width="100%" alt="Minh Lu — backend developer. Building systems, shaping workflows, learning by making." />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/neofetch-dark.svg" />
+    <img src="./assets/neofetch-light.svg" width="100%" alt="minh@workstation — Minh Lu, backend developer. Stack: TypeScript, Python, NestJS, PostgreSQL, Docker. GitHub stats updated daily." />
+  </picture>
 </p>
 
 <p align="center">
