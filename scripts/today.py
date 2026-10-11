@@ -266,6 +266,7 @@ def load_art():
 ART_FONT = 10      # px — chữ nhỏ để ảnh ASCII chi tiết hơn
 ART_CW = 6.6       # độ rộng ký tự ước lượng ở 10px (có dư cho Consolas +9%)
 ART_LH = 12
+GLYPH_W = 6.0      # độ rộng thực tế của ký tự 10px (Consolas/Menlo/DejaVu) — dùng tính tâm xoay
 
 
 def image_art_fragment(c):
@@ -297,15 +298,15 @@ def image_art_fragment(c):
         frag.append("</text></g>")
         top += len(bub) * (ART_LH + 1) + 4
 
-    for idx, (a, b) in enumerate(people):
-        frag.append(f'<g class="{"solo" if solo else f"p{idx}"}"><text x="{X}" fill="{c["text"]}" font-size="{ART_FONT}px">')
+    def text_block(cls, keep, style=""):
+        """Một <text> phủ cả lưới; ô nào keep(x, cell) = False thì thay bằng khoảng trắng."""
+        st = f' style="{style}"' if style else ""
+        frag.append(f'<g class="{cls}"{st}><text x="{X}" fill="{c["text"]}" font-size="{ART_FONT}px">')
         for y, row in enumerate(grid):
-            # Mỗi người là một <text> đủ chiều rộng; cột của người kia thay bằng khoảng trắng
             segs, cur, buf = [], None, ""
             for x in range(cols):
-                ch, col = row[x] if x < len(row) else (" ", None)
-                if not (a <= x < b):
-                    ch, col = " ", None
+                cell = row[x] if x < len(row) else [" ", None]
+                ch, col = (cell[0], cell[1]) if keep(x, cell) else (" ", None)
                 if col != cur and buf:
                     segs.append((cur, buf)); buf = ""
                 cur = col; buf += ch
@@ -316,6 +317,28 @@ def image_art_fragment(c):
             inner = "".join(f'<tspan fill="{k}">{escape(t)}</tspan>' if k else escape(t) for k, t in segs)
             frag.append(f'<tspan x="{X}" y="{top + y * ART_LH}">{inner}</tspan>')
         frag.append("</text></g>")
+
+    region = lambda cell: cell[2] if len(cell) > 2 else "body"
+    if solo:
+        # Thân nhảy chân sáo; hai tay (nếu art.json có đánh dấu) vung riêng quanh vai
+        frag.append('<g class="solo">')
+        text_block("body", lambda x, cell: region(cell) == "body")
+        for arm in ("armL", "armR"):
+            pts = [(x, y) for y, row in enumerate(grid) for x, cell in enumerate(row)
+                   if region(cell) == arm and cell[0] != " "]
+            if not pts:
+                continue
+            # Tâm xoay = vai: góc dưới-phải của tay trái / góc dưới-trái của tay phải
+            col = max(p[0] for p in pts) if arm == "armL" else min(p[0] for p in pts)
+            row = max(p[1] for p in pts)
+            ox, oy = X + col * GLYPH_W, top + row * ART_LH
+            text_block(arm, lambda x, cell, arm=arm: region(cell) == arm,
+                       style=f"transform-origin: {ox:.0f}px {oy:.0f}px")
+        frag.append("</g>")
+    else:
+        for idx, (a, b) in enumerate(people):
+            text_block(f"p{idx}", lambda x, cell, a=a, b=b: a <= x < b)
+    width_cols = cols
     bw = (max(len(l) for l in bub) if text else 0) * (ART_CW + 0.7)
     width = X + max(cols * ART_CW + pad, bw)
     height = top + len(grid) * ART_LH
@@ -411,6 +434,18 @@ ANIM_CSS = """
   72%  { transform: translate(5px,-16px)  rotate(3deg)  scale(0.98, 1.04); animation-timing-function: ease-in; }
   100% { transform: translate(0, 0)      rotate(-9deg) scale(1.05, 0.93); }
 }
+/* Tay vung xen kẽ quanh vai, cùng nhịp với bước nhảy */
+.armL, .armR { transform-box: view-box; }
+.armL { animation: armL 0.96s ease-in-out infinite; }
+.armR { animation: armR 0.96s ease-in-out infinite; }
+@keyframes armL {
+  0%, 100% { transform: rotate(-24deg); }
+  50%      { transform: rotate(10deg); }
+}
+@keyframes armR {
+  0%, 100% { transform: rotate(-10deg); }
+  50%      { transform: rotate(24deg); }
+}
 @keyframes hop {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
@@ -426,7 +461,7 @@ ANIM_CSS = """
   96%, 100% { opacity: 0; transform: scale(0.9); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .head, .p0, .p1, .solo { animation: none; } .bubble { animation: none; opacity: 1; }
+  .head, .p0, .p1, .solo, .armL, .armR { animation: none; } .bubble { animation: none; opacity: 1; }
 }
 """
 

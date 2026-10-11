@@ -3,8 +3,10 @@ Chuyển một ảnh minh hoạ thành ASCII có màu, lưu vào scripts/art.jso
 
   python scripts/make_art.py <ảnh> [--cols 52] [--rows 32] [--split 26]
 
---split: cột chia ảnh thành 2 nhân vật (trái / phải) để mỗi người nhún nhảy riêng.
-         Bỏ qua (hoặc 0) nếu chỉ có một nhân vật.
+--split:   cột chia ảnh thành 2 nhân vật (trái / phải) để mỗi người nhún nhảy riêng.
+           Bỏ qua (hoặc 0) nếu chỉ có một nhân vật.
+--regions: file JSON {"armL": [[x,y],...], "armR": [[x,y],...]} — đa giác (toạ độ pixel
+           của ảnh) đánh dấu hai cánh tay để today.py cho tay vung riêng quanh vai.
 
 Lưu ý bản quyền: chỉ commit art.json (bản ASCII đã chỉnh sửa), KHÔNG commit ảnh gốc
 vào repo public nếu điều khoản của nguồn ảnh cấm phân phối lại (ví dụ イラストマン).
@@ -19,7 +21,17 @@ from PIL import Image
 RAMP = " .,:;-=+*%#@"
 
 
-def convert(path, cols, rows):
+def inside(pt, poly):
+    x, y = pt
+    hit = False
+    for i in range(len(poly)):
+        (x1, y1), (x2, y2) = poly[i], poly[i - 1]
+        if (y1 > y) != (y2 > y) and x < (x2 - x1) * (y - y1) / (y2 - y1) + x1:
+            hit = not hit
+    return hit
+
+
+def convert(path, cols, rows, regions=None):
     im = Image.open(path).convert("RGBA")
     bg = Image.new("RGBA", im.size, "white")
     bg.alpha_composite(im)
@@ -43,7 +55,14 @@ def convert(path, cols, rows):
                 h, s, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
                 if s > 0.45 and v > 0.45:
                     color = "#%02x%02x%02x" % (int(r), int(g), int(b))
-            row.append([ch_, color])
+            cell = [ch_, color]
+            if regions:
+                center = ((x + 0.5) * cw, (y + 0.5) * ch)
+                for name, poly in regions.items():
+                    if inside(center, poly):
+                        cell.append(name)
+                        break
+            row.append(cell)
         grid.append(row)
     # bỏ dòng trống cuối
     while grid and all(c[0] == " " for c in grid[-1]):
@@ -57,12 +76,15 @@ def main():
     ap.add_argument("--cols", type=int, default=52)
     ap.add_argument("--rows", type=int, default=32)
     ap.add_argument("--split", type=int, default=0)
+    ap.add_argument("--regions")
     a = ap.parse_args()
-    grid = convert(a.image, a.cols, a.rows)
+    regions = json.loads(Path(a.regions).read_text()) if a.regions else None
+    grid = convert(a.image, a.cols, a.rows, regions)
     out = Path(__file__).with_name("art.json")
     out.write_text(json.dumps({"split": a.split, "grid": grid}, separators=(",", ":")), encoding="utf-8")
     for row in grid:
-        print("".join(c[0] for c in row).rstrip())
+        print("".join({"armL": "L", "armR": "R"}.get(c[2], c[0]) if len(c) > 2 and c[0] != " " else c[0]
+                      for c in row).rstrip())
     print(f"→ {out}")
 
 
