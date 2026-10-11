@@ -13,10 +13,11 @@ GITHUB_USERNAME = "minhlu-i"
 UPTIME_SINCE = None
 
 # Hình bên trái:
-#   "character" = nhân vật ASCII gật gù + bong bóng thoại (mặc định)
+#   "image"     = ảnh minh hoạ ASCII màu trong scripts/art.json (2 người nhún nhảy + bong bóng)
+#   "character" = nhân vật ASCII tự vẽ, gật gù + bong bóng thoại
 #   "avatar"    = chuyển AVATAR_FILE thành ASCII (tĩnh)
 #   "terminal"  = hình terminal minh@workstation (tĩnh)
-ART = "character"
+ART = "image"
 BUBBLE_TEXT = "I have done nothing productive all day."
 
 # Ảnh chân dung để chuyển thành ASCII (đường dẫn tính từ gốc repo).

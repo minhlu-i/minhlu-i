@@ -5,7 +5,7 @@ on:
     - cron: "0 17 * * *"   # 00:00 giờ Việt Nam mỗi ngày
   push:
     branches: [main]
-    paths: ["scripts/**", "assets/avatar.jpg", ".github/workflows/build.yml"]
+    paths: ["scripts/**", ".github/workflows/build.yml"]
   workflow_dispatch:
 
 permissions:
@@ -27,7 +27,8 @@ jobs:
 
       - name: Render SVG
         env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          # Không có secret ACCESS_TOKEN thì dùng token có sẵn của Actions (chỉ thấy repo public)
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN || github.token }}
           USER_NAME: ${{ github.repository_owner }}
         run: python scripts/today.py
 

@@ -5,8 +5,9 @@ Tạo assets/neofetch-dark.svg và assets/neofetch-light.svg cho GitHub profile 
   python scripts/today.py --demo     # dùng số liệu giả để xem trước bố cục
 
 Biến môi trường:
-  ACCESS_TOKEN  Personal access token (classic: scope `repo`, `read:user`;
-                hoặc fine-grained: Contents/Metadata read cho mọi repo)
+  ACCESS_TOKEN  Token GitHub để gọi GraphQL API (API này bắt buộc xác thực).
+                Trên Actions: secret ACCESS_TOKEN nếu có, không thì github.token
+                (chỉ đếm repo public). Chạy trên máy: dùng `gh auth token`.
   USER_NAME     (tuỳ chọn) ghi đè GITHUB_USERNAME trong config.py
 """
 import datetime
@@ -246,6 +247,8 @@ def image_to_ascii(path: Path, width: int, height: int, invert: bool):
 def load_art():
     """Trả về danh sách (phần, dòng). phần ∈ bubble | head | body."""
     mode = getattr(config, "ART", "character")
+    if mode == "image":
+        return []
     if mode == "character":
         bubble = bubble_lines(config.BUBBLE_TEXT) if getattr(config, "BUBBLE_TEXT", "") else []
         return ([("bubble", l) for l in bubble] + [("head", l) for l in CHAR_HEAD]
@@ -256,6 +259,60 @@ def load_art():
     else:
         lines = FALLBACK_ART
     return [("body", l) for l in lines]
+
+
+
+# ── Ảnh minh hoạ đã chuyển sẵn sang ASCII màu (scripts/art.json, tạo bằng make_art.py) ──
+ART_FONT = 10      # px — chữ nhỏ để ảnh ASCII chi tiết hơn
+ART_CW = 6.6       # độ rộng ký tự ước lượng ở 10px (có dư cho Consolas +9%)
+ART_LH = 12
+
+
+def image_art_fragment(c):
+    """SVG cho chế độ ART='image': bong bóng thoại + 2 nhân vật nhún nhảy so le."""
+    data = json.loads((Path(__file__).with_name("art.json")).read_text(encoding="utf-8"))
+    grid, split = data["grid"], data.get("split") or 0
+    cols = max(len(r) for r in grid)
+    people = [(0, split), (split, cols)] if split else [(0, cols)]
+    frag = []
+
+    text = getattr(config, "BUBBLE_TEXT", "")
+    top = 30
+    if text:
+        w = len(text)
+        tail = int(cols * 0.62)                       # đuôi chỉ về người bên phải
+        bub = ["." + "-" * (w + 4) + ".",
+               "(  " + text + "  )",
+               "'" + "-" * (tail - 1) + ".  ." + "-" * (w + 4 - tail - 3) + "'",
+               " " * (tail + 1) + "\\|"]
+        frag.append(f'<g class="bubble"><text x="15" fill="{c["value"]}" font-size="{ART_FONT + 1}px">')
+        for i, l in enumerate(bub):
+            frag.append(f'<tspan x="15" y="{top + i * (ART_LH + 1)}">{escape(l)}</tspan>')
+        frag.append("</text></g>")
+        top += len(bub) * (ART_LH + 1) + 4
+
+    for idx, (a, b) in enumerate(people):
+        frag.append(f'<g class="p{idx}"><text x="15" fill="{c["text"]}" font-size="{ART_FONT}px">')
+        for y, row in enumerate(grid):
+            # Mỗi người là một <text> đủ chiều rộng; cột của người kia thay bằng khoảng trắng
+            segs, cur, buf = [], None, ""
+            for x in range(cols):
+                ch, col = row[x] if x < len(row) else (" ", None)
+                if not (a <= x < b):
+                    ch, col = " ", None
+                if col != cur and buf:
+                    segs.append((cur, buf)); buf = ""
+                cur = col; buf += ch
+            if buf:
+                segs.append((cur, buf))
+            if all(t.strip() == "" for _, t in segs):
+                continue
+            inner = "".join(f'<tspan fill="{k}">{escape(t)}</tspan>' if k else escape(t) for k, t in segs)
+            frag.append(f'<tspan x="15" y="{top + y * ART_LH}">{inner}</tspan>')
+        frag.append("</text></g>")
+    width = 15 + max(cols, len(text) + 6) * ART_CW
+    height = top + len(grid) * ART_LH
+    return frag, width, height
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -335,6 +392,12 @@ ANIM_CSS = """
 .head { animation: nod 4s ease-in-out infinite; }
 .bubble { opacity: 0; transform-box: fill-box; transform-origin: 30% 100%;
           animation: pop 4s ease-out infinite; }
+.p0 { animation: hop 1.2s ease-in-out infinite; }
+.p1 { animation: hop 1.2s ease-in-out infinite; animation-delay: -0.6s; }
+@keyframes hop {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
 @keyframes nod {
   0%, 8%, 24%, 40%, 100% { transform: translateY(0); }
   16%, 32% { transform: translateY(7px); }
@@ -346,19 +409,26 @@ ANIM_CSS = """
   96%, 100% { opacity: 0; transform: scale(0.9); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .head { animation: none; } .bubble { animation: none; opacity: 1; }
+  .head, .p0, .p1 { animation: none; } .bubble { animation: none; opacity: 1; }
 }
 """
 
 
 def render(theme, art, info):
     c = THEMES[theme]
-    art_w = max(len(l) for _, l in art)
-    info_x = 15 + art_w * CHAR_W + 30
+    image_mode = getattr(config, "ART", "") == "image"
+    if image_mode:
+        img_frag, img_w, img_h = image_art_fragment(c)
+        info_x = img_w + 30
+        height = int(max(30 + len(info) * LINE_H + 10, img_h + 20))
+        art = []
+    else:
+        art_w = max(len(l) for _, l in art)
+        info_x = 15 + art_w * CHAR_W + 30
+        rows = max(len(art), len(info))
+        height = 30 + rows * LINE_H + 10
+        art_y0 = 30 + (rows - len(art)) * LINE_H // 2
     width = int(info_x + config.LINE_WIDTH * CHAR_W + 20)
-    rows = max(len(art), len(info))
-    height = 30 + rows * LINE_H + 10
-    art_y0 = 30 + (rows - len(art)) * LINE_H // 2
 
     out = [f'<?xml version="1.0" encoding="utf-8"?>',
            f'<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" font-family="ConsolasFallback,Consolas,monospace" '
@@ -373,6 +443,8 @@ def render(theme, art, info):
            ANIM_CSS,
            "</style>",
            f'<rect width="{width}px" height="{height}px" fill="{c["bg"]}" rx="15"/>']
+    if image_mode:
+        out += img_frag
     # Gom các dòng liên tiếp cùng phần vào một nhóm <g> để animate riêng
     groups, i = [], 0
     for part, line in art:
