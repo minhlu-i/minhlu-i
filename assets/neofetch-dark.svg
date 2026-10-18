@@ -125,7 +125,7 @@ text, tspan {white-space: pre;}
 <text x="499" y="30" fill="#E4E2F5">
 <tspan x="499" y="30"><tspan class="text">minh@workstation </tspan><tspan class="cc">-------------------------------------------</tspan></tspan>
 <tspan x="499" y="50"><tspan class="key">OS</tspan>:<tspan class="cc"> ................................... </tspan><tspan class="value">macOS, Ubuntu / WSL2</tspan></tspan>
-<tspan x="499" y="70"><tspan class="key">Uptime</tspan>:<tspan class="cc"> .......................... </tspan><tspan class="value">8 years, 7 months, 7 days</tspan></tspan>
+<tspan x="499" y="70"><tspan class="key">Uptime</tspan>:<tspan class="cc"> .......................... </tspan><tspan class="value">8 years, 7 months, 8 days</tspan></tspan>
 <tspan x="499" y="90"><tspan class="key">Host</tspan>:<tspan class="cc"> ..................................... </tspan><tspan class="value">Da Nang, Vietnam</tspan></tspan>
 <tspan x="499" y="110"><tspan class="key">Kernel</tspan>:<tspan class="cc"> .................................. </tspan><tspan class="value">Backend Developer</tspan></tspan>
 <tspan x="499" y="130"><tspan class="key">Shell</tspan>:<tspan class="cc"> ....................... </tspan><tspan class="value">Zsh / Bash + Starship, zoxide</tspan></tspan>
