@@ -125,7 +125,7 @@ text, tspan {white-space: pre;}
 <text x="499" y="30" fill="#E4E2F5">
 <tspan x="499" y="30"><tspan class="text">minh@workstation </tspan><tspan class="cc">-------------------------------------------</tspan></tspan>
 <tspan x="499" y="50"><tspan class="key">OS</tspan>:<tspan class="cc"> ................................... </tspan><tspan class="value">macOS, Ubuntu / WSL2</tspan></tspan>
-<tspan x="499" y="70"><tspan class="key">Uptime</tspan>:<tspan class="cc"> ......................... </tspan><tspan class="value">8 years, 7 months, 22 days</tspan></tspan>
+<tspan x="499" y="70"><tspan class="key">Uptime</tspan>:<tspan class="cc"> ......................... </tspan><tspan class="value">8 years, 7 months, 23 days</tspan></tspan>
 <tspan x="499" y="90"><tspan class="key">Host</tspan>:<tspan class="cc"> ..................................... </tspan><tspan class="value">Da Nang, Vietnam</tspan></tspan>
 <tspan x="499" y="110"><tspan class="key">Kernel</tspan>:<tspan class="cc"> .................................. </tspan><tspan class="value">Backend Developer</tspan></tspan>
 <tspan x="499" y="130"><tspan class="key">Shell</tspan>:<tspan class="cc"> ....................... </tspan><tspan class="value">Zsh / Bash + Starship, zoxide</tspan></tspan>
@@ -140,7 +140,7 @@ text, tspan {white-space: pre;}
 <tspan x="499" y="370"><tspan class="key">Facebook</tspan>:<tspan class="cc"> ......................................... </tspan><tspan class="value">minhlu99</tspan></tspan>
 <tspan x="499" y="410"><tspan class="text">- GitHub Stats </tspan><tspan class="cc">---------------------------------------------</tspan></tspan>
 <tspan x="499" y="430"><tspan class="key">Repos</tspan>:<tspan class="cc"> .. </tspan><tspan class="value">3 {Contributed: 4}</tspan><tspan class="cc"> | </tspan><tspan class="key">Stars</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">0</tspan></tspan>
-<tspan x="499" y="450"><tspan class="key">Commits</tspan>:<tspan class="cc"> ................ </tspan><tspan class="value">77</tspan><tspan class="cc"> | </tspan><tspan class="key">Followers</tspan>:<tspan class="cc"> ............... </tspan><tspan class="value">10</tspan></tspan>
+<tspan x="499" y="450"><tspan class="key">Commits</tspan>:<tspan class="cc"> ................ </tspan><tspan class="value">77</tspan><tspan class="cc"> | </tspan><tspan class="key">Followers</tspan>:<tspan class="cc"> ................ </tspan><tspan class="value">9</tspan></tspan>
 <tspan x="499" y="470"><tspan class="key">Lines of Code on GitHub:</tspan><tspan class="cc"> ...... </tspan><tspan class="value">24,152 ( </tspan><tspan class="add">32,579++</tspan><tspan class="value">, </tspan><tspan class="del">8,427--</tspan><tspan class="value"> )</tspan></tspan>
 </text>
 </svg>
